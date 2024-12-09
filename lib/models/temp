@@ -1,0 +1,513 @@
+  Widget petCard(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
+    var screenWidth = MediaQuery.of(context).size.width;
+    Size size = MediaQuery.of(context).size;
+    double imageWidth = size.width * .2;
+    double imageHeight = size.height * .1;
+    double imageBigSize = ((MediaQuery.of(context).size.width / 2) + 20);
+    double imageSmallSize = (imageBigSize / 2) - 10;
+
+    return Container(
+      width: screenWidth,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+                top: screenHeight * 0.01,
+                left: screenWidth * 0.05,
+                right: screenWidth * 0.05,
+                bottom: screenHeight * 0.01),
+            child: Text(
+              pageValueController.addPhotoPageValue == Constant.parentAddPhotoValue
+                  ? AppLocalizations.of(context)!.petImages
+                  : AppLocalizations.of(context)!.childImages,
+              style: const TextStyle(
+                color: AppColors.blackColor,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          SizedBox(height: screenHeight * 0.02),
+
+          // Block for pageValue == 0 (Load images from device)
+          if (pageValueController.pageValue == 0) ...[
+            imageFiles.isEmpty
+                ? Container()
+                : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                imageFiles.isNotEmpty
+                    ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      onUploadAlert(Constant.firstIndex);
+                    });
+                  },
+                  child: Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: imageBigSize,
+                          height: imageBigSize,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: AppColors.grayColor,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              width: imageWidth,
+                              height: imageHeight,
+                              color: Colors.red,
+                              child: Image.file(
+                                File(imageFiles[0].path),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Transform.translate(
+                          offset: const Offset(10, -10),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                imageFiles.removeAt(0);
+                                if (imageFiles.isEmpty) {
+                                  // Navigator.pop(context);
+                                }
+                              });
+                            },
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: AppColors.redColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.remove,
+                                color: AppColors.whiteColor,
+                                size: CustomImageSize.closeIconSize(context),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+                    : Container(
+                  width: imageBigSize,
+                  height: imageBigSize,
+                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  child: Image.asset(
+                    ImageAssets.demoImage,
+                  ),
+                ),
+                spaceWidth(context: context, size: 50),
+                Column(
+                  children: [
+                    imageFiles.length > 1
+                        ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          onUploadAlert(Constant.secondIndex);
+                        });
+                      },
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: imageSmallSize,
+                              height: imageSmallSize,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: AppColors.grayColor,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  width: imageWidth,
+                                  height: imageHeight,
+                                  color: Colors.red,
+                                  child: Image.file(
+                                    File(imageFiles[1].path),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Transform.translate(
+                              offset: const Offset(10, -10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    imageFiles.removeAt(1);
+                                    if (imageFiles.isEmpty) {
+                                      // Navigator.pop(context);
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.redColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.remove,
+                                    color: AppColors.whiteColor,
+                                    size: CustomImageSize.closeIconSize(context),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                        : Container(
+                      width: imageSmallSize,
+                      height: imageSmallSize,
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      child: Image.asset(
+                        ImageAssets.demoImage,
+                      ),
+                    ),
+                    spaceHeight(context: context, size: 20),
+                    imageFiles.length > 2
+                        ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          onUploadAlert(Constant.thirdIndex);
+                        });
+                      },
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: imageSmallSize,
+                              height: imageSmallSize,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: AppColors.grayColor,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  width: imageWidth,
+                                  height: imageHeight,
+                                  color: Colors.red,
+                                  child: Image.file(
+                                    File(imageFiles[2].path),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Transform.translate(
+                              offset: const Offset(10, -10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    imageFiles.removeAt(2);
+                                    if (imageFiles.isEmpty) {
+                                      // Navigator.pop(context);
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.redColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.remove,
+                                    color: AppColors.whiteColor,
+                                    size: CustomImageSize.closeIconSize(context),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                        : Container(
+                      width: imageSmallSize,
+                      height: imageSmallSize,
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      child: Image.asset(
+                        ImageAssets.demoImage,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+
+          // Block for pageValue == 1 (Load images from S3 bucket)
+          if (pageValueController.pageValue == 1) ...[
+            imageUrls.isEmpty
+                ? Container()
+                : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                imageUrls.isNotEmpty
+                    ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      onUploadAlert(Constant.firstIndex);
+                    });
+                  },
+                  child: Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: imageBigSize,
+                          height: imageBigSize,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: AppColors.grayColor,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              width: imageWidth,
+                              height: imageHeight,
+                              color: Colors.red,
+                              child: Image.network(
+                                imageUrls[0]!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Transform.translate(
+                          offset: const Offset(10, -10),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                imageUrls.removeAt(0);
+                                if (imageUrls.isEmpty) {
+                                  // Navigator.pop(context);
+                                }
+                              });
+                            },
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: AppColors.redColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.remove,
+                                color: AppColors.whiteColor,
+                                size: CustomImageSize.closeIconSize(context),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+                    : Container(
+                  width: imageBigSize,
+                  height: imageBigSize,
+                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  child: Image.asset(
+                    ImageAssets.demoImage,
+                  ),
+                ),
+                spaceWidth(context: context, size: 50),
+                Column(
+                  children: [
+                    imageUrls.length > 1
+                        ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          onUploadAlert(Constant.secondIndex);
+                        });
+                      },
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: imageSmallSize,
+                              height: imageSmallSize,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: AppColors.grayColor,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  width: imageWidth,
+                                  height: imageHeight,
+                                  color: Colors.red,
+                                  child: Image.network(
+                                    imageUrls[1]!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Transform.translate(
+                              offset: const Offset(10, -10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    imageUrls.removeAt(1);
+                                    if (imageUrls.isEmpty) {
+                                      // Navigator.pop(context);
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.redColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.remove,
+                                    color: AppColors.whiteColor,
+                                    size: CustomImageSize.closeIconSize(context),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                        : Container(
+                      width: imageSmallSize,
+                      height: imageSmallSize,
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      child: Image.asset(
+                        ImageAssets.demoImage,
+                      ),
+                    ),
+                    spaceHeight(context: context, size: 20),
+                    imageUrls.length > 2
+                        ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          onUploadAlert(Constant.thirdIndex);
+                        });
+                      },
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: imageSmallSize,
+                              height: imageSmallSize,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: AppColors.grayColor,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  width: imageWidth,
+                                  height: imageHeight,
+                                  color: Colors.red,
+                                  child: Image.network(
+                                    imageUrls[2]!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Transform.translate(
+                              offset: const Offset(10, -10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    imageUrls.removeAt(2);
+                                    if (imageUrls.isEmpty) {
+                                      // Navigator.pop(context);
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.redColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.remove,
+                                    color: AppColors.whiteColor,
+                                    size: CustomImageSize.closeIconSize(context),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                        : Container(
+                      width: imageSmallSize,
+                      height: imageSmallSize,
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      child: Image.asset(
+                        ImageAssets.demoImage,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ]
+        ],
+      ),
+    );
+  }
